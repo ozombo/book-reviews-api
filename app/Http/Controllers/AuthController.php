@@ -34,7 +34,8 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        $credentials = $request->only(['email', 'password']);
+        //removed [] from credentials request to avoid laravel undefined index password error
+        $credentials = $request->only('email', 'password');
 
         if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);

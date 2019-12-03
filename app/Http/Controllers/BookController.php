@@ -61,7 +61,7 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        // check if currently authenticated user is the owner of the book
+        // only book owners can update
         if (auth()->user()->id !== $book->user_id) {
             return response()->json(['error' => 'You can only edit your own books.'], 403);
         }
@@ -79,6 +79,11 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
+        // only book owners can delete
+        if (auth()->user()->id !== $book->user_id) {
+            return response()->json(['error' => 'You can only delete your own books.'], 403);
+        }
+
         $book->delete();
 
         return response()->json(null, 204);

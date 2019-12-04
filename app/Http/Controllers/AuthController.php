@@ -45,6 +45,17 @@ class AuthController extends Controller
     }
 
     /**
+     * Display the specified user.
+     *
+     * @param  \App\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function show(User $user)
+    {
+        return new UserResource($user);
+    }
+
+    /**
      * Get the token array structure.
      *
      * @param  string $token
@@ -84,5 +95,38 @@ class AuthController extends Controller
     {
         auth()->logout();
         return response()->json(['message' => 'Successfully logged out'], 200);
+    }
+
+    /**
+     * Remove the specified user from storage.
+     *
+     * @param App\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(User $user)
+    {
+        
+        $user->delete();
+
+        return response()->json(['message' => 'User deleted'], 200);
+    }
+
+    /**
+     * Update the specified user in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, User $user)
+    {
+        // // only book owners can update
+        // if (auth()->user()->id !== $book->user_id) {
+        //     return response()->json(['error' => 'You can only edit your own books.'], 403);
+        // }
+
+        $user->update($request->only(['name', 'email']));
+
+        return new UserResource($user);
     }
 }

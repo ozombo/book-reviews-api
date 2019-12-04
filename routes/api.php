@@ -16,8 +16,10 @@
 Route::post('register', 'AuthController@register')->name('api.register');
 Route::post('login', 'AuthController@login')->name('api.authenticate');
 Route::post('logout', 'AuthController@logout')->name('api.logout');
-Route::get('user', 'AuthController@getAuthUser')->name('api.login');
-Route::get('users', 'AuthController@index')->name('api.users');
+Route::get('user', 'AuthController@getAuthUser')->name('api.showUser');
+// Route::get('users', 'AuthController@index')->name('api.users');
+// Route::delete('users/{user}', 'AuthController@delete');
+Route::apiResource('users', 'AuthController');
 
 // Books
 Route::apiResource('books', 'BookController');
